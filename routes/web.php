@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ImpersonateController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use UisIts\Oidc\Http\Controllers\AuthController;
@@ -16,7 +17,8 @@ Route::middleware('auth')->group(function() {
         return view('home');
     })->name('home');
 
-    Route::resource('/user', UserController::class);
+    Route::get('/user', [UserController::class, '__invoke'])->name('user.index');
+    Route::get('/role', [RoleController::class, '__invoke'])->name('role.index');
     Route::resource('/impersonate', ImpersonateController::class)
         ->only(['store', 'destroy']);
     Route::get('/feedback', function() {

@@ -40,7 +40,7 @@ class UserFormRequest extends FormRequest
             'email' => 'required',
             'netid' => 'required',
             'uin' => 'required',
-            'roles' => 'sometimes',
+            'role' => 'sometimes',
         ];
     }
 }

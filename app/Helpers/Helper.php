@@ -3,21 +3,10 @@
 namespace App\Helpers;
 
 use Adldap\Laravel\Facades\Adldap;
-use App\Person;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use jamesiarmes\PhpEws\ArrayType\NonEmptyArrayOfAllItemsType;
-use jamesiarmes\PhpEws\Client;
-use jamesiarmes\PhpEws\Enumeration\BodyTypeType;
-use jamesiarmes\PhpEws\Enumeration\CalendarItemCreateOrDeleteOperationType;
-use jamesiarmes\PhpEws\Enumeration\ResponseClassType;
-use jamesiarmes\PhpEws\Request\CreateItemType;
-use jamesiarmes\PhpEws\Type\BodyType;
-use jamesiarmes\PhpEws\Type\CalendarItemType;
-use jamesiarmes\PhpEws\Type\ConnectingSIDType;
-use jamesiarmes\PhpEws\Type\ExchangeImpersonationType;
 use PDO;
 
 class Helper
@@ -105,80 +94,6 @@ class Helper
     }
 
     /**
-     * @return void
-     */
-    public static function addToExchangeCalendar(
-        $start_string,
-        $end_string,
-        $subject,
-        $body,
-        $cal_username,
-        $server,
-        $username,
-        $password,
-        $tz
-    ) {
-        $version = Client::VERSION_2013;
-        $start = DateTime::createFromFormat('Y-m-d H:i:s', $start_string);
-        $end_day_before = DateTime::createFromFormat('Y-m-d H:i:s', $end_string);
-        $end = $end_day_before->modify('+1 day');
-
-        $ews = new Client($server, $username, $password, $version);
-        $ews->setTimezone($tz);
-
-        //Impersonate
-        $ei = new ExchangeImpersonationType();
-        $sid = new ConnectingSIDType();
-        $sid->PrimarySmtpAddress = $cal_username;
-        $ei->ConnectingSID = $sid;
-        $ews->setImpersonation($ei);
-
-        $request = new CreateItemType();
-        $request->SendMeetingInvitations = CalendarItemCreateOrDeleteOperationType::SEND_ONLY_TO_ALL;
-        $request->Items = new NonEmptyArrayOfAllItemsType();
-
-        // Build the event to be added.
-        $event = new CalendarItemType();
-        $event->Start = $start->format('c');
-        $event->End = $end->format('c');
-        $event->Subject = $subject;
-
-        $event->LegacyFreeBusyStatus = 'Free';
-        $event->ReminderIsSet = false;
-
-        // Set the event body.
-        $event->Body = new BodyType();
-        $event->Body->_ = $body;
-        $event->Body->BodyType = BodyTypeType::TEXT;
-
-        // Add the event to the request. You could add multiple events to create more
-        // than one in a single request.
-        $request->Items->CalendarItem[] = $event;
-
-        $response = $ews->CreateItem($request);
-
-        // Iterate over the results, printing any error messages or event ids.
-        $response_messages = $response->ResponseMessages->CreateItemResponseMessage;
-
-        foreach ($response_messages as $response_message) {
-            // Make sure the request succeeded.
-            if ($response_message->ResponseClass != ResponseClassType::SUCCESS) {
-                $code = $response_message->ResponseCode;
-                $message = $response_message->MessageText;
-                Session::flash('success', "Event failed to create with \"$code: $message\"\n");
-
-                continue;
-            }
-
-            // Iterate over the created events, printing the id for each.
-            foreach ($response_message->Items->CalendarItem as $item) {
-                $id = $item->ItemId->Id;
-                Session::flash('success', 'The event was successfully added to the calendar.');
-            }
-        }
-    }
-
-    /**
      * @return mixed|null
      */
     public static function getSemester()
@@ -259,47 +174,13 @@ class Helper
     public static function getTitleFromUin($uin)
     {
         $result = '';
-        $supervisor_info = DB::connection('oraclecdmpvt')->table('EMP_SUPV_DEPT_UIS')->where('uin', $uin)->first();
+        $supervisor_info = DB::connection('oraclecdmpvt')
+            ->table('EMP_SUPV_DEPT_UIS')
+            ->where('uin', $uin)
+            ->first();
 
         if ($supervisor_info) {
             $result = $supervisor_info->posn_title;
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return false|string|null
-     */
-    public static function getUinFromBarcode($barcode)
-    {
-        $uin = '';
-        $uin = substr($barcode, 4, 9);
-
-        return $uin;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public static function getLoggedUserNetid()
-    {
-        $result = '';
-        if (isset($_SERVER['cn'])) {
-            $result = $_SERVER['cn'];
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public static function getLoggedUserUIN()
-    {
-        $result = '';
-        if (isset($_SERVER['iTrustUIN'])) {
-            $result = $_SERVER['iTrustUIN'];
         }
 
         return $result;

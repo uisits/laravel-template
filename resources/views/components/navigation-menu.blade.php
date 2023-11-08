@@ -50,18 +50,29 @@
                                             </x-slot>
                                             {{ __('Users') }}
                                         </x-dropdown-link>
-                                        <x-dropdown-link target="_blank" href="{{ route('telescope') }}">
+                                        <x-dropdown-link class="flex items-center" href="{{ route('role.index') }}">
                                             <x-slot name="icon">
-                                                <span class="pr-2 material-icons">tune</span>
+                                                <span class="pr-2 material-icons">settings</span>
                                             </x-slot>
-                                            {{ __('Laravel Telescope') }}
+                                            {{ __('Roles') }}
                                         </x-dropdown-link>
-{{--                                        <x-dropdown-link target="_blank" href="{{ route('horizon.index') }}">--}}
-{{--                                            <x-slot name="icon">--}}
-{{--                                                <span class="pr-2 material-icons">dns</span>--}}
-{{--                                            </x-slot>--}}
-{{--                                            {{ __('Horizon') }}--}}
-{{--                                        </x-dropdown-link>--}}
+                                        @if(auth()->user()->can('super admin'))
+                                            <div class="block px-4 py-2 text-xs text-gray-400">
+                                                {{ __('App Management') }}
+                                            </div>
+                                            <x-dropdown-link class="flex items-center" target="_blank" href="{{ route('telescope') }}">
+                                                <x-slot name="icon">
+                                                    <span class="pr-2 material-icons">tune</span>
+                                                </x-slot>
+                                                {{ __('Laravel Telescope') }}
+                                            </x-dropdown-link>
+    {{--                                        <x-dropdown-link target="_blank" href="{{ route('horizon.index') }}">--}}
+    {{--                                            <x-slot name="icon">--}}
+    {{--                                                <span class="pr-2 material-icons">dns</span>--}}
+    {{--                                            </x-slot>--}}
+    {{--                                            {{ __('Horizon') }}--}}
+    {{--                                        </x-dropdown-link>--}}
+                                        @endcan
                                     </div>
                                 </x-slot>
                             </x-dropdown>
@@ -151,12 +162,17 @@
                     <x-responsive-nav-link href="{{ route('user.index') }}" :active="request()->routeIs('user.index')">
                         {{ __('Users') }}
                     </x-responsive-nav-link>
-                    <x-responsive-nav-link href="{{ route('telescope') }}">
-                        <x-slot name="icon">
-                            <span class="material-icons">page_info</span>
-                        </x-slot>
-                        {{ __('Telescope') }}
-                    </x-responsive-nav-link>
+                        @can('super admin')
+                            <x-responsive-nav-link href="{{ route('role.index') }}" :active="request()->routeIs('role.index')">
+                                {{ __('Roles') }}
+                            </x-responsive-nav-link>
+                            <x-responsive-nav-link href="{{ route('telescope') }}">
+                                <x-slot name="icon">
+                                    <span class="material-icons">page_info</span>
+                                </x-slot>
+                                {{ __('Telescope') }}
+                            </x-responsive-nav-link>
+                        @endcan
                     <x-responsive-nav-link href="{{ url('/') }}/help">
                         {{ __('Help') }}
                     </x-responsive-nav-link>

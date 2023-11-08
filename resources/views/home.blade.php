@@ -7,7 +7,7 @@
     </x-slot>
 
     <div class="p-5">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
+        <div class="py-5 max-w-7xl mx-auto sm:px-6 lg:px-8 bg-white overflow-hidden shadow-xl sm:rounded-lg">
             {{ \Illuminate\Foundation\Inspiring::quote() }}
         </div>
     </div>

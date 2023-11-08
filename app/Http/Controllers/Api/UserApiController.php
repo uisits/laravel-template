@@ -17,7 +17,7 @@ class UserApiController extends Controller
      */
     public function index()
     {
-        $users = User::with(['roles'])->orderBy('last_name', 'asc')->get();
+        $users = User::with(['role'])->orderBy('last_name', 'asc')->get();
 
         return UserResource::collection($users);
     }
