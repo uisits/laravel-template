@@ -102,6 +102,14 @@ return [
         'syslog' => [
             'driver' => 'syslog',
             'level' => env('LOG_LEVEL', 'debug'),
+            'facility' => 'local3',
+        ],
+
+        'custom' => [
+            'driver' => 'custom',
+            'via' => App\Logging\GelfLogger::class,
+            'host' => env('GELF_HOST', null),
+            'port' => env('GELF_PORT', null),
         ],
 
         'errorlog' => [
