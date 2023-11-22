@@ -36,3 +36,29 @@ This is a template application for UIS ITS applications built using laravel fram
     > php artisan migrate --force 
     > ```
 
+## How To
+
+---
+##### Use Ldap
+Ldap connections now use TLS and have their own User Model in `app\Ldap\User`.
+
+In order to search for a user in ldap you can use:
+```php
+use App\Ldap\User;
+
+$user = User::findByOrFail('extensionattribute1', '123456789');
+or
+$user = User::findByOrFail('cn', 'xyxxx3');
+$user->email;
+$user->netid;
+$user->uin;
+$user->full_name;
+$user->first_name;
+$user->last_name;
+$user->department;
+```
+
+For more querying options review the documentation at [https://ldaprecord.com/docs/core/v3/searching#introduction](https://ldaprecord.com/docs/core/v3/searching#introduction). 
+
+#### TODO:
+- Connect to only necessary services via .env

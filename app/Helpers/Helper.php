@@ -2,95 +2,36 @@
 
 namespace App\Helpers;
 
-use Adldap\Laravel\Facades\Adldap;
-use DateTime;
+use App\Ldap\User;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use LdapRecord\Query\ObjectNotFoundException;
 use PDO;
 
 class Helper
 {
     /**
-     * @return mixed|string
+     * @param string $uin
+     * @return string
      *
-     * @throws Exception
+     * @throws ObjectNotFoundException
      */
-    public static function getNetidFromUIN($uin)
+    public static function getNetidFromUIN(string $uin): string
     {
-        $search = Adldap::search()->where('extensionattribute1', '=', $uin)->first();
-
-        if (! isset($search->cn[0])) {
-            throw new Exception('User not Found in AD group!', 404);
-        }
-
-        return $search->cn[0];
+        $search = User::findByOrFail('extensionattribute1', $uin);
+        return $search->netid;
     }
 
     /**
      * @return string
      */
-    public static function getFullNameFromUin($uin)
+    public static function getFullNameFromUin($uin): string
     {
-        $result = '';
         if ($uin == '000000001') {
             return 'System';
         }
-
-        $search = Adldap::search()->where('extensionattribute1', '=', $uin)->get();
-
-        if (isset($search[0]->cn[0])) {
-            $result = $search[0]->givenname[0].' '.$search[0]->sn[0];
-        }
-
-        //NOT FOUND IN AD
-        if (strlen($result) < 2) {
-            $cdm_person = Person::where('uinid', $uin)->first();
-            if (! is_null($cdm_person)) {
-                if (isset($cdm_person->lname)) {
-                    $result = $cdm_person->fname.' '.$cdm_person->lname;
-                }
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getBannerNetidByUIN($uin)
-    {
-        $result = '';
-
-        $uri = env('AITS_WEB_SERVICE_PERSON_LOOKUP').$uin;
-        try {
-            $request_aits_person_lookup = \Httpful\Request::get($uri)->expectsJson()->sendIt();
-
-            if ($request_aits_person_lookup->code == '200') {
-                if (isset($request_aits_person_lookup->body->list[0]->netIds)) {
-                    $netids = $request_aits_person_lookup->body->list[0]->netIds;
-
-                    if (count($netids) > 0) {
-                        foreach ($netids as $netid) {
-                            if ((isset($netid->campusDomain)) && ($netid->campusDomain === 'uis.edu')) {
-                                $result = $netid->netId;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-            }//end of if
-
-        }//end of foreach
-
-        catch (Exception $e) {
-            //\Log::error('An Exception occured in getBannerNetid: ' . $e->getMessage());
-        }  //end of catch
-
-        return $result;
-
+        $search = User::findByOrFail('extensionattribute1', $uin);
+        return $search->full_name;
     }
 
     /**
