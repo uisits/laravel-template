@@ -1,34 +1,43 @@
-import 'babel-polyfill'
-import Vue from 'vue'
-import Vuetify from 'vuetify'
-import 'vuetify/dist/vuetify.min.css' // Ensure you are using css-loader
-import '@mdi/font/css/materialdesignicons.css' // Ensure you are using css-loader
-import axios from 'axios'
+import { createApp, h } from 'vue'
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as directives from 'vuetify/directives'
+import { Model } from 'vue-api-query'
 import Alpine from 'alpinejs';
-import './bootstrap';
+import axios from 'axios'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+import { aliases, mdi } from 'vuetify/iconsets/mdi'
+import * as components from 'vuetify/components'
+import * as labsComponents from 'vuetify/labs/components'
 
+const vuetify = createVuetify({
+    components: {
+        ...components,
+        ...labsComponents,
+    },
+    directives,
+    icons: {
+        defaultSet: 'mdi',
+        aliases,
+        sets: {
+            mdi,
+        },
+    },
+});
+
+require('./bootstrap');
+Model.$http = axios
 window.Alpine = Alpine;
+
 Alpine.start();
 
-window.axios = require('axios');
-window.Vue = require('vue');
-Vue.config.productionTip = false;
+const app = createApp({})
 
-// Initialize Vuetify
-const vuetifyOptions = {};
-Vue.use(Vuetify);
+// Component Registration
+app.component('user-index', require('./Pages/Users/Index.vue').default);
+app.component('feedback', require('./Pages/Feedbacks/Index.vue').default);
 
-/**
- * Register your components here:
- */
-Vue.component('user-index', require('./Pages/users/Index.vue').default);
-Vue.component('role-index', require('./Pages/roles/Index.vue').default);
-Vue.component('feedback-index', require('./Pages/feedback/Index.vue').default);
+// Role
+app.component('roles-index', require('./Pages/Roles/Index.vue').default);
 
-const app = new Vue({
-    el: '#app',
-    icons: {
-        iconfont: 'mdi',
-    },
-    vuetify: new Vuetify(vuetifyOptions),
-});
+app.use(vuetify).mount('#app');
