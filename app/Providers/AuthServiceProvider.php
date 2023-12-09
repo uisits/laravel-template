@@ -32,6 +32,10 @@ class AuthServiceProvider extends ServiceProvider
             return $user->hasRole('super admin') ? true : null;
         });
 
+        Gate::define('viewPulse', function (User $user) {
+            return $user->hasRole('admin');
+        });
+
         Gate::define('admin', function (User $user) {
             return $user->hasRole('admin');
         });
