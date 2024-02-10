@@ -1,64 +1,66 @@
-# UIS ITS Laravel Template
+<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-This is a template application for UIS ITS applications built using laravel framework.
+<p align="center">
+<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
+<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
+</p>
 
-## Features
-- User Authentication using [UIS ITS Laravel oidc](https://github.com/uisits/laravel-oidc) package.
-- Migrations
-- Databases: MySQL, Oracle
-- AD-LDAP
-- User Management
-- User Role Management using [Spatie Permissions](https://spatie.be/docs/laravel-permission/v6/introduction)
-- User Feedbacks
-- Laravel Telescope for development
+## About Laravel
 
-## Usage
-- To use this package as a starter template simply run the command
-    ```shell
-    composer create-project uisits/starter project_name
-    ```
-  OR
-   ```shell
-    composer create-project uisits/starter:^0.0.1 project_name
-    ```
+Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- To create a database during project scaffolding you can add your database connection details in the `.env` file.
-    Then you can simply run:
-    ```shell
-    php artisan migrate
-    ```
-    This will ask you if you want to create a database and you can pass `y` flag.
-    > Note:
-    > 
-    > In case you want to create the database as a part of shell script you want to pass the `--force` flag to the above command.
-    > 
-    > ```shell
-    > php artisan migrate --force 
-    > ```
+- [Simple, fast routing engine](https://laravel.com/docs/routing).
+- [Powerful dependency injection container](https://laravel.com/docs/container).
+- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+- [Robust background job processing](https://laravel.com/docs/queues).
+- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-## How To
+Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
----
-##### Use Ldap
-Ldap connections now use TLS and have their own User Model in `app\Ldap\User`.
+## Learning Laravel
 
-In order to search for a user in ldap you can use:
-```php
-use App\Ldap\User;
+Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-$user = User::findByOrFail('extensionattribute1', '123456789');
-or
-$user = User::findByOrFail('cn', 'xyxxx3');
-$user->email;
-$user->netid;
-$user->uin;
-$user->full_name;
-$user->first_name;
-$user->last_name;
-$user->department;
-```
+You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
 
-For more querying options review the documentation at [https://ldaprecord.com/docs/core/v3/searching#introduction](https://ldaprecord.com/docs/core/v3/searching#introduction). 
+If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
-#### TODO:
-- Connect to only necessary services via .env
+## Laravel Sponsors
+
+We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+
+### Premium Partners
+
+- **[Vehikl](https://vehikl.com/)**
+- **[Tighten Co.](https://tighten.co)**
+- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+- **[64 Robots](https://64robots.com)**
+- **[Cubet Techno Labs](https://cubettech.com)**
+- **[Cyber-Duck](https://cyber-duck.co.uk)**
+- **[Many](https://www.many.co.uk)**
+- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
+- **[DevSquad](https://devsquad.com)**
+- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+- **[OP.GG](https://op.gg)**
+- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
+- **[Lendio](https://lendio.com)**
+
+## Contributing
+
+Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+
+## Code of Conduct
+
+In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+
+## License
+
+The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

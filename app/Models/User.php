@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Session;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
@@ -19,7 +21,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $guarded = [];
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'first_name',
+        'last_name',
+        'uin',
+        'netid',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -27,7 +37,8 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password', 'remember_token', 'access_token', 'id_token', 'refresh_token'
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -36,24 +47,18 @@ class User extends Authenticatable
      * @var array<string, string>
      */
     protected $casts = [
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
+        'email_verified_at' => 'datetime',
     ];
 
-    /**
-     * @return bool
-     */
-    public function isImpersonating(): bool
+    public function isAdministrator()
     {
-        return Session::has('impersonate');
+        return $this->hasRole('admin');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function feedbacks(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function canAccessPanel(Panel $panel): bool
     {
-        return $this->hasMany(Feedback::class);
+        //return str_ends_with($this->email, '@yourdomain.com') && $this->hasVerifiedEmail();
+        return $this->hasRole('admin');
     }
 
 }

@@ -17,5 +17,3 @@
 
     <livewire:pulse.slow-outgoing-requests cols="6" />
 </x-pulse>
-
-<script src="{{ env('MIX_APP_URL') }}/livewire/livewire.js?id=f477dd12"   data-csrf="xOBqe8rbrmmcoilLWU1uG9eNVwxuKU5ieRllRlWB" data-update-uri="{{ env('MIX_APP_URL') }}/livewire/update" data-navigate-once="true"></script>

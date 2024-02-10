@@ -1,32 +1,33 @@
 {
-    "name": "uisits/starter",
+    "name": "laravel/laravel",
     "type": "project",
-    "description": "Laravel Template for UIS ITS projects",
+    "description": "The Laravel Framework.",
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.2",
-        "arcanedev/log-viewer": "^10.0",
-        "directorytree/ldaprecord-laravel": "^3.1",
-        "doctrine/dbal": "^3.0",
-        "graylog2/gelf-php": "^2.0",
-        "guzzlehttp/guzzle": "^7.8",
-        "laravel/framework": "^10.0",
-        "laravel/pulse": "^1.0@beta",
-        "laravel/sanctum": "^3.3",
-        "laravel/tinker": "^2.8",
-        "spatie/laravel-permission": "^6.1",
-        "uisits/laravel-oidc": "^10.0",
-        "yajra/laravel-oci8": "^10.3"
+        "php": "^8.0.2",
+        "althinect/filament-spatie-roles-permissions": "^2.2",
+        "filament/filament": "^3.2",
+        "guzzlehttp/guzzle": "^7.3",
+        "husam-tariq/filament-database-schedule": "^2.0",
+        "laravel/framework": "^10.3",
+        "laravel/sanctum": "^3.0",
+        "laravel/telescope": "^4.17",
+        "laravel/tinker": "^2.9",
+        "spatie/laravel-permission": "^6.3",
+        "stechstudio/filament-impersonate": "^3.6",
+        "stephenjude/filament-debugger": "^2.0",
+        "uisits/laravel-oidc": "^10.0"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
-        "laravel/pint": "^1.13",
+        "jasonmccreary/laravel-test-assertions": "^2.3",
+        "laravel-shift/blueprint": "^2.5",
+        "laravel/pint": "^1.0",
         "laravel/sail": "^1.0.1",
-        "laravel/telescope": "^4.17",
         "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.5",
+        "nunomaduro/collision": "^7.1",
+        "phpunit/phpunit": "^9.6",
         "spatie/laravel-ignition": "^2.0"
     },
     "autoload": {
@@ -44,7 +45,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
@@ -69,6 +71,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "beta",
+    "minimum-stability": "stable",
     "prefer-stable": true
 }

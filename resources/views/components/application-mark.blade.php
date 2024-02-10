@@ -1,1 +1,0 @@
-<img src="{{ url('/') }}/images/UIS-official-Wordmark.png">
