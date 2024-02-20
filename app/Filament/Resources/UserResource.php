@@ -10,42 +10,38 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use STS\FilamentImpersonate\Tables\Actions\Impersonate;
 
 class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-user-group';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationGroup = 'Settings';
+
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('netid')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('uin')
-                    ->required()
-                    ->maxLength(9),
                 Forms\Components\TextInput::make('name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('first_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('last_name')
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
+                Forms\Components\TextInput::make('first_name'),
+                Forms\Components\TextInput::make('last_name'),
+                Forms\Components\TextInput::make('uin'),
+                Forms\Components\TextInput::make('netid'),
                 Forms\Components\TextInput::make('email')
                     ->email()
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\DateTimePicker::make('email_verified_at'),
+                    ->required(),
                 Forms\Components\TextInput::make('password')
                     ->password()
-                    ->required()
-                    ->maxLength(255),
+                    ->required(),
+                //Forms\Components\DateTimePicker::make('email_verified_at'),
+                Forms\Components\CheckboxList::make('roles')
+                    ->relationship('roles', 'name')
+                    ->searchable(),
             ]);
     }
 
@@ -53,21 +49,21 @@ class UserResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('netid')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('uin')
-                    ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('first_name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('last_name')
                     ->searchable(),
+                Tables\Columns\TextColumn::make('uin')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('netid')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('email')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('email_verified_at')
-                    ->dateTime()
-                    ->sortable(),
+                //Tables\Columns\TextColumn::make('email_verified_at')
+                //   ->dateTime()
+                //   ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -76,6 +72,7 @@ class UserResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('roles.name')
             ])
             ->filters([
                 //
@@ -90,6 +87,7 @@ class UserResource extends Resource
                 ]),
             ]);
     }
+
     public static function getRelations(): array
     {
         return [

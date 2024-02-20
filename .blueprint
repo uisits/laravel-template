@@ -1,0 +1,7 @@
+created:
+    - database/factories/SettingsFactory.php
+    - database/migrations/2024_01_26_030110_create_settings_table.php
+    - app/Models/Settings.php
+    - database/seeders/SettingsSeeder.php
+models:
+    Settings: { academic_yr_cd: string }

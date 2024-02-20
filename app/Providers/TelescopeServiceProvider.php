@@ -6,6 +6,7 @@ use Laravel\Telescope\Telescope;
 use Laravel\Telescope\IncomingEntry;
 use Laravel\Telescope\TelescopeApplicationServiceProvider;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
 
 class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
 {
@@ -47,9 +48,9 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         Telescope::hideRequestParameters(['_token']);
 
         Telescope::hideRequestHeaders([
-                'cookie',
-                'x-csrf-token',
-                'x-xsrf-token',
+            'cookie',
+            'x-csrf-token',
+            'x-xsrf-token',
         ]);
     }
 
@@ -69,11 +70,14 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
         ]);
         });
          */
-        Gate::define('viewTelescope', function ()
-                {
-                return Gate::allows('admin'); 
-                });
-
+        Gate::define('viewTelescope', function ($user) {
+            return $user->can('super_admin');
+        });
     }
 
+    protected function authorization()
+    {
+        Auth::setDefaultDriver('web');
+        parent::authorization();
+    }
 }

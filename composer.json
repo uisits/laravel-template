@@ -5,19 +5,22 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^8.0.2",
-        "althinect/filament-spatie-roles-permissions": "^2.2",
+        "php": "^8.2",
+        "bezhansalleh/filament-shield": "^3.2",
+        "directorytree/ldaprecord-laravel": "^3.2",
         "filament/filament": "^3.2",
         "guzzlehttp/guzzle": "^7.3",
         "husam-tariq/filament-database-schedule": "^2.0",
         "laravel/framework": "^10.3",
+        "laravel/pulse": "^1.0@beta",
         "laravel/sanctum": "^3.0",
         "laravel/telescope": "^4.17",
         "laravel/tinker": "^2.9",
+        "pxlrbt/filament-excel": "^2.3",
         "spatie/laravel-permission": "^6.3",
         "stechstudio/filament-impersonate": "^3.6",
-        "stephenjude/filament-debugger": "^2.0",
-        "uisits/laravel-oidc": "^10.0"
+        "uisits/laravel-oidc": "^10.0",
+        "yajra/laravel-oci8": "^10.4"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
@@ -71,6 +74,6 @@
             "pestphp/pest-plugin": true
         }
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "beta",
     "prefer-stable": true
 }

@@ -19,6 +19,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Base Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the base name of your application. This value is used when the
+    | the application wants to override the base url to include the app name in
+    | routes or any other location as required by the application or its packages.
+    |
+    */
+
+    'base_name' => env('VITE_APP_NAME', 'starter'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |
@@ -69,7 +82,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => env('APP_TIMEZONE'),
 
     /*
     |--------------------------------------------------------------------------
@@ -193,10 +206,9 @@ return [
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
-        App\Providers\HorizonServiceProvider::class,
+        App\Providers\Filament\AppPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
-	App\Providers\Filament\AppPanelProvider::class,
-	App\Providers\TelescopeServiceProvider::class,
+        App\Providers\TelescopeServiceProvider::class,
 
     ],
 
@@ -213,6 +225,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,
+        'Helper' => App\Helpers\Helper::class,
     ])->toArray(),
 
 ];

@@ -1,0 +1,3 @@
+Regular users should not see all the other Panel entries but Applications and References
+Regular users should only see their appplications/References
+

@@ -1,0 +1,6 @@
+models:
+  Settings:
+    academic_yr_cd: string
+
+seeders: Settings
+
