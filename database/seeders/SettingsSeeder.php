@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Settings;
+use App\Models\Setting;
 use Illuminate\Database\Seeder;
 
 class SettingsSeeder extends Seeder
@@ -14,6 +14,6 @@ class SettingsSeeder extends Seeder
      */
     public function run()
     {
-        Settings::factory()->count(1)->create();
+        Setting::factory()->count(1)->create();
     }
 }

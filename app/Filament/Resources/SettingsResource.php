@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\SettingsResource\Pages;
 use App\Filament\Resources\SettingsResource\RelationManagers;
-use App\Models\Settings;
+use App\Models\Setting;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SettingsResource extends Resource
 {
-    protected static ?string $model = Settings::class;
+    protected static ?string $model = Setting::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-adjustments-horizontal';
     protected static ?string $navigationGroup = 'Settings';

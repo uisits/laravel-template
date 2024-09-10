@@ -31,7 +31,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
            $entry->isScheduledTask() ||
            $entry->hasMonitoredTag();
            });
-         */  
+         */
     }
 
     /**
@@ -63,21 +63,8 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     protected function gate()
     {
-        /*
-           Gate::define('viewTelescope', function ($user) {
-           return in_array($user->email, [
-        //
-        ]);
-        });
-         */
         Gate::define('viewTelescope', function ($user) {
-            return $user->can('super_admin');
+            return $user->hasRole('super_admin');
         });
-    }
-
-    protected function authorization()
-    {
-        Auth::setDefaultDriver('web');
-        parent::authorization();
     }
 }

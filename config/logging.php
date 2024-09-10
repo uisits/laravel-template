@@ -14,7 +14,7 @@ return [
     | one of the channels defined in the "channels" configuration array.
     |
     */
-    
+
 
     'default' => env('LOG_CHANNEL', 'stack'),
 
@@ -36,7 +36,7 @@ return [
     'channels' => [
         'stack' => [
             'driver' => 'stack',
-	    'channels' => ['daily', 'slack', 'syslog']
+	        'channels' => ['daily', 'slack', 'syslog']
         ],
 
         'single' => [
