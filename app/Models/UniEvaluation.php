@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class UniEvaluation extends Model
 {
+    use SoftDeletes;
+
     protected $guarded = [];
 
     /**
@@ -15,13 +18,5 @@ class UniEvaluation extends Model
     public function registration(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Registration::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    {
-        return $this->belongsTo(User::class);
     }
 }

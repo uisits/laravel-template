@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\EvaluationType;
+use App\Models\Scopes\ActiveSemesterScope;
+use Illuminate\Database\Eloquent\Attributes\ScopedBy;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -27,6 +29,14 @@ class Registration extends Model
     ];
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function semester(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Semester::class, 'semester', 'semester');
+    }
+
+    /**
      * Returns the students completed evaluations.
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -47,9 +57,9 @@ class Registration extends Model
     public function getCompletedEvaluationAttribute()
     {
         if(Str::of($this->course_no)->contains('UNI') ) {
-            return $this->uniEvaluation->exists();
+            return $this->uniEvaluation?->exists();
         }
-        $this->evaluation->exists();
+        return $this->evaluation?->exists();
     }
 
 }

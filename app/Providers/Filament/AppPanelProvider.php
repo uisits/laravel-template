@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Models\Semester;
+use Filament\Actions\Action;
 use Filament\Facades\Filament;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -25,6 +27,7 @@ use Illuminate\Support\Facades\Blade;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use HusamTariq\FilamentDatabaseSchedule\FilamentDatabaseSchedulePlugin;
 use Filament\Enums\ThemeMode;
+use Orion\FilamentGreeter\GreeterPlugin;
 
 class AppPanelProvider extends PanelProvider
 {
@@ -64,7 +67,16 @@ class AppPanelProvider extends PanelProvider
                 //Widgets\AccountWidget::class,
                 //Widgets\FilamentInfoWidget::class,
             ])
-            ->plugins([FilamentDatabaseSchedulePlugin::make(), FilamentShieldPlugin::make()])
+            ->plugins([
+                FilamentDatabaseSchedulePlugin::make(),
+                FilamentShieldPlugin::make(),
+                GreeterPlugin::make()
+                    ->message('Welcome to')
+                    ->name('UIS Course Survey for ' . Semester::where('active', true)->firstOrFail()->semester_description)
+                    ->title('These anonymous surveys are considered when evaluating an instructor’s job performance and are meant to provide feedback to help instructors improve their teaching. Instructors will not receive feedback until final course grades have posted. Additionally, UIS recognizes that course evaluations are sometimes influenced by unintentional biases regarding the race and/or gender of the instructor (Peterson et al., 2019). As you complete this course survey, please provide honest and constructive comments where indicated on the content of the course (e.g. assignments, content, delivery, etc.) and not unrelated matters (i.e. the instrutors appearance.')
+                    ->sort(1)
+                    ->columnSpan('full'),
+            ])
             ->middleware([
                 EncryptCookies::class,
                 AddQueuedCookiesToResponse::class,

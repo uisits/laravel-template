@@ -25,4 +25,14 @@ enum Question1Options: string implements HasLabel
             ->ucfirst()
             ->value();
     }
+
+    /**
+     * Retrieve an array of the values from all cases.
+     *
+     * @return array
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }

@@ -39,4 +39,14 @@ enum Question4Options: string implements HasLabel
     {
         return $this->value;
     }
+
+    /**
+     * Retrieve an array of the values from all cases.
+     *
+     * @return array
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
+    }
 }

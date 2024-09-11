@@ -15,11 +15,10 @@ class ListEvaluations extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->authorize('super_admin')
                 ->visible(fn () => Registration::where('student_netid', auth()->user()->netid)
                     ->where('course_no', 'not like', 'UNI%')
                     ->whereDoesntHave('evaluation')
-                    ->exists() || auth()->user()->hasRole('super_admin')
+                    ->exists()
                 )
                 ->icon('heroicon-s-plus-circle'),
         ];

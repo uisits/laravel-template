@@ -5,11 +5,12 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\RegistrationResource\Pages;
 use App\Filament\Resources\RegistrationResource\RelationManagers;
 use App\Models\Registration;
+use App\Models\Scopes\ActiveSemesterScope;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
-use Filament\Tables\Columns\Summarizers\Count;
+use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
@@ -18,15 +19,23 @@ class RegistrationResource extends Resource
 {
     protected static ?string $model = Registration::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-user-plus';
 
     public static function getEloquentQuery(): Builder
     {
         if(auth()->user()->hasAnyRole(['super_admin', 'admin'])) {
-            return parent::getEloquentQuery();
+            return parent::getEloquentQuery()
+                ->withoutGlobalScopes([
+                    SoftDeletingScope::class,
+                ]);
         }
 
-        return parent::getEloquentQuery()->where('student_netid', auth()->user()->netid);
+        return parent::getEloquentQuery()
+            ->whereHas('semester')
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ])
+            ->where('student_netid', auth()->user()->netid);
     }
 
     public static function form(Form $form): Form
@@ -135,7 +144,8 @@ class RegistrationResource extends Resource
                 //
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
+                Tables\Actions\EditAction::make()
+                    ->authorize('super_admin'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

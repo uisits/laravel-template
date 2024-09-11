@@ -41,7 +41,7 @@ $registrations = \App\Models\Registration::with('evaluation')
                             <tbody>
                             @foreach($registrations as $registration)
                                 <tr>
-                                    <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                                    <td class="px-2 whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                         <div class="flex items-center">
                                             <div class="ml-4">
                                                 <div class="font-medium text-gray-900">{{ $registration->course_name }}</div>
@@ -49,7 +49,7 @@ $registrations = \App\Models\Registration::with('evaluation')
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
+                                    <td class="px-2 whitespace-nowrap py-5 pl-4 pr-3 text-sm sm:pl-0">
                                         <div class="flex items-center">
                                             <div class="ml-4">
                                                 <a href="mailto:{{$registration->instructor_netid}}" class="font-medium text-gray-900">{{ $registration->instructor_name }}</a>
@@ -57,12 +57,12 @@ $registrations = \App\Models\Registration::with('evaluation')
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="hidden px-3 py-4 text-sm text-gray-500 md:table-cell">
+                                    <td class="px-2 hidden px-3 py-4 text-sm text-gray-500 md:table-cell">
                                         {{ $registration->section_type }}
                                     </td>
-                                    <td class="px-3 py-4 text-sm text-gray-500">{{ $registration->evaluation_start->format('j F Y h:i A') }}</td>
-                                    <td class="px-3 py-4 text-sm text-gray-500">{{ $registration->evaluation_end->format('j F Y h:i A') }}</td>
-                                    <td class="relative py-4 pl-3 text-right text-sm font-medium">
+                                    <td class="px-2 py-4 text-sm text-gray-500">{{ $registration->evaluation_start->format('j F Y h:i A') }}</td>
+                                    <td class="px-2 py-4 text-sm text-gray-500">{{ $registration->evaluation_end->format('j F Y h:i A') }}</td>
+                                    <td class="px-2 py-4 pl-3 text-sm font-medium">
                                         @if($registration->evaluation_start >= \Carbon\Carbon::now() || $registration->evaluation_end <= \Carbon\Carbon::now())
                                             Not Available
                                         @else

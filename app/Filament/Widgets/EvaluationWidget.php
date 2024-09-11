@@ -11,6 +11,8 @@ class EvaluationWidget extends Widget
 
     protected int | string | array $columnSpan = 'full';
 
+    protected static ?int $sort = 3;
+
     public static function canView(): bool
     {
         if(Registration::where('student_netid', auth()->user()->netid)->exists())

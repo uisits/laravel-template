@@ -1,5 +1,10 @@
 <?php
 
+use App\Enums\Evaluations\Question1Options;
+use App\Enums\Evaluations\Question2Options;
+use App\Enums\Evaluations\Question3Options;
+use App\Enums\Evaluations\Question4Options;
+use App\Enums\Evaluations\Question5Options;
 use App\Models\Registration;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
@@ -15,19 +20,26 @@ return new class extends Migration
     {
         Schema::create('evaluations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class)->constrained();
             $table->foreignIdFor(Registration::class)->constrained();
-            $table->string('answer_1')->nullable();
-            $table->string('answer_2')->nullable();
-            $table->string('answer_3')->nullable();
-            $table->string('answer_4')->nullable();
-            $table->string('answer_5')->nullable();
-            $table->string('answer_6')->nullable();
-            $table->string('answer_7')->nullable();
-            $table->string('answer_8')->nullable();
-            $table->string('answer_9')->nullable();
-            $table->string('answer_10')->nullable();
-            $table->longText('comment')->nullable();
+            $table->enum('answer_1', Question1Options::values())->nullable();
+            $table->enum('answer_2', Question2Options::values())->nullable();
+            $table->enum('answer_3', Question3Options::values())->nullable();
+            $table->enum('answer_4', Question4Options::values())->nullable();
+            $table->text('answer_5')->nullable();
+            $table->enum('answer_6', [1,2,3,4,5])->nullable();
+            $table->enum('answer_7', [1,2,3,4,5])->nullable();
+            $table->enum('answer_8', [1,2,3,4,5])->nullable();
+            $table->enum('answer_9', [1,2,3,4,5])->nullable();
+            $table->enum('answer_10', [1,2,3,4,5])->nullable();
+            $table->enum('answer_11', [1,2,3,4,5])->nullable();
+            $table->enum('answer_12', [1,2,3,4,5])->nullable();
+            $table->enum('answer_13', [1,2,3,4,5])->nullable();
+            $table->enum('answer_14', [1,2,3,4,5])->nullable();
+            $table->enum('answer_15', [1,2,3,4,5])->nullable();
+            $table->longText('answer_16')->nullable();
+            $table->longText('answer_17')->nullable();
+            $table->longText('answer_18')->nullable();
+            $table->longText('answer_19')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources;
 
-use App\Enums\Uni\Question12Options;
 use App\Enums\Uni\Question1Options;
 use App\Enums\Uni\Question2Options;
 use App\Enums\Uni\Question3Options;
@@ -13,16 +12,19 @@ use App\Enums\Uni\Question7Options;
 use App\Enums\Uni\Question8Options;
 use App\Enums\Uni\Question9Options;
 use App\Enums\Uni\Question10Options;
+use App\Enums\Uni\Question12Options;
 use App\Filament\Resources\UniEvaluationResource\Pages;
 use App\Filament\Resources\UniEvaluationResource\RelationManagers;
-use App\Models\Registration;
 use App\Models\UniEvaluation;
 use Filament\Forms;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Auth\Access\Response;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class UniEvaluationResource extends Resource
@@ -44,7 +46,10 @@ class UniEvaluationResource extends Resource
             ->withoutGlobalScopes([
                 SoftDeletingScope::class,
             ])
-            ->where('user_id', auth()->id());
+            ->whereHas('registration', function (Builder $query) {
+                $query->where('student_netid', auth()->user()->netid)
+                    ->where('course_no', 'like', 'UNI%');
+            });
     }
 
     public static function form(Form $form): Form
@@ -53,12 +58,31 @@ class UniEvaluationResource extends Resource
             ->schema([
                 Forms\Components\Select::make('registration_id')
                     ->label('Please select the course you are evaluating')
-                    ->options(function() {
-                        return Registration::where('student_netid', auth()->user()?->netid)
+                    ->visibleOn('create')
+                    ->relationship(
+                        'registration',
+                        'course_name',
+                        modifyQueryUsing: fn (Builder $query): Builder => $query->where('student_netid', auth()->user()?->netid)
                             ->where('course_no', 'like', 'UNI%')
-                            ->doesntHave('evaluation')
-                            ->pluck('course_name',  'id');
-                    }),
+                            ->doesntHave('uniEvaluation')
+                    )
+                    ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->course_name} - {$record->course_no} {$record->instructor_name}"),
+                Forms\Components\Fieldset::make('Course')
+                    ->label('Course')
+                    ->disabled()
+                    ->relationship('registration')
+                    ->hiddenOn('create')
+                    ->schema([
+                        TextInput::make('semester'),
+                        TextInput::make('course_name'),
+                        TextInput::make('course_no'),
+                        TextInput::make('instructor_name'),
+                        TextInput::make('instructor_netid'),
+                        TextInput::make('instructor_uin'),
+                        TextInput::make('section_type'),
+                        Forms\Components\Radio::make('online')
+                            ->boolean(),
+                    ]),
                 Forms\Components\Section::make()
                     ->columns([
                         'sm' => 1,
@@ -132,26 +156,65 @@ class UniEvaluationResource extends Resource
                             ->columnSpanFull()
                             ->label('15. Please share any other comments on the ECCE Speaker Series course.'),
                     ]),
-                Forms\Components\RichEditor::make('comment')
-                    ->label('Comments for the course instructor’s use')
-                    ->columnSpanFull(),
             ]);
     }
 
     public static function table(Table $table): Table
     {
         return $table
+            ->searchable()
             ->columns([
-                Tables\Columns\TextColumn::make('user.name'),
-                Tables\Columns\TextColumn::make('registration.course_name'),
-                Tables\Columns\TextColumn::make('registration.course_no'),
-                Tables\Columns\TextColumn::make('registration.semester'),
-                Tables\Columns\TextColumn::make('registration.instructor_name'),
+                Tables\Columns\TextColumn::make('registration.semester')
+                    ->label('Semester')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('registration.course_name')
+                    ->label('Course Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('registration.course_no')
+                    ->label('Course No')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('registration.instructor_name')
+                    ->label('Instructor Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('registration.instructor_netid')
+                    ->label('Instructor Netid')
+                    ->searchable()
+                    ->copyable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('registration.section_type')
+                    ->label('Section Type'),
+                Tables\Columns\IconColumn::make('registration.online')
+                    ->boolean()
+                    ->icon(fn (string $state): string => match ($state) {
+                        '1' => 'heroicon-o-check-circle',
+                        '0' => 'heroicon-o-x-circle',
+                    })
+                    ->trueColor('success')
+                    ->falseColor('danger')
+                    ->label('Online?'),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('deleted_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\TrashedFilter::make()
+                    ->visible(fn () => auth()->user()->hasAnyRole(['super_admin', 'admin'])),
             ])
             ->actions([
+                Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
             ])
             ->bulkActions([

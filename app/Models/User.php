@@ -20,15 +20,7 @@ class User extends Authenticatable implements FilamentUser
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'first_name',
-        'last_name',
-        'uin',
-        'netid',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,6 +50,9 @@ class User extends Authenticatable implements FilamentUser
      */
     public function canAccessPanel(Panel $panel): bool
     {
+        if(app()->isLocal()) {
+            return true;
+        }
         return str_ends_with($this->email, '@uis.edu');
     }
 

@@ -18,7 +18,7 @@ class ListUniEvaluations extends ListRecords
                 ->visible(fn () => Registration::where('student_netid', auth()->user()->netid)
                     ->where('course_no', 'like', 'UNI%')
                     ->whereDoesntHave('uniEvaluation')
-                    ->exists() || auth()->user()->hasRole('super_admin')
+                    ->exists()
                 )
                 ->icon('heroicon-o-plus-circle'),
         ];

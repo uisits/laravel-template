@@ -5,12 +5,13 @@ namespace App\Enums\Uni;
 use Filament\Support\Contracts\HasLabel;
 use Illuminate\Support\Str;
 
-enum Question2Options: int implements HasLabel
+enum Question2Options: string implements HasLabel
 {
+    case FEMALE = 'female';
 
-    case FEMALE = 1;
+    case MALE = 'male';
 
-    case MALE = 2;
+    case OTHER = 'other';
 
     /**
      * @return string|null
@@ -22,5 +23,15 @@ enum Question2Options: int implements HasLabel
             ->lower()
             ->ucfirst()
             ->value();
+    }
+
+    /**
+     * Retrieve an array of the values from all cases.
+     *
+     * @return array
+     */
+    public static function values(): array
+    {
+        return array_column(self::cases(), 'value');
     }
 }
