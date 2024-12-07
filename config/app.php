@@ -17,6 +17,19 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Base Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the base name of your application. This value is used when the
+    | the application wants to override the base url to include the app name in
+    | routes or any other location as required by the application or its packages.
+    |
+    */
+
+    'base_name' => env('VITE_APP_NAME', 'starter'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Environment
     |--------------------------------------------------------------------------
     |

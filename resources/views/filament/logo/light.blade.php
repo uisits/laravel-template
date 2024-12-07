@@ -1,0 +1,1 @@
+<img class="rounded" src="{{ asset('/images/uis-official-logo.png') }}" alt="UIS Logo">
