@@ -22,6 +22,8 @@ class UserResource extends Resource
 
     protected static ?string $navigationGroup = 'Settings';
 
+    protected static ?int $navigationSort = 2;
+
     protected static ?string $recordTitleAttribute = 'name';
 
     public static function getGloballySearchableAttributes(): array

@@ -70,7 +70,8 @@ class AppPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-                FilamentSpatieLaravelHealthPlugin::make(),
+                FilamentSpatieLaravelHealthPlugin::make()
+                    ->authorize(fn () => auth()->user()->hasRole('super_admin')),
                 DebuggerPlugin::make()
                     ->navigationGroup(condition: true, label: 'Debugger')
                     ->authorize(fn () => auth()->user()->hasRole('super_admin')),
