@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use Livewire\Livewire;
-use UisIts\Oidc\Http\Controllers\AuthController;
 use App\Http\Controllers\Filament\LogoutController;
 use Filament\Actions\Exports\Http\Controllers\DownloadExport;
+use Illuminate\Support\Facades\Route;
+use Livewire\Livewire;
+use UisIts\Oidc\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,19 +24,19 @@ if (app()->isLocal()) {
      * Override the url for Livewire javascript and update calls.
      */
     Livewire::setScriptRoute(function ($handle) {
-        return Route::get('/'.config('app.base_name').'/livewire/livewire.js', $handle)
+        return Route::get('/' . config('app.base_name') . '/livewire/livewire.js', $handle)
             ->middleware(['web', 'auth']);
     });
 
     Livewire::setUpdateRoute(function ($handle) {
-        return Route::get('/'.config('app.base_name').'/livewire/update', $handle)
+        return Route::get('/' . config('app.base_name') . '/livewire/update', $handle)
             ->middleware(['web', 'auth']);
     });
 
     /**
      * Override the url for filament-export package required to download generated files.
      */
-    Route::get('/'.config('app.base_name').'/filament/exports/{export}/download', DownloadExport::class)
+    Route::get('/' . config('app.base_name') . '/filament/exports/{export}/download', DownloadExport::class)
         ->name('filament.exports.download')
         ->middleware(['web', 'auth']);
 }

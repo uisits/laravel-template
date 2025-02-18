@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Models\User;
+use Illuminate\Auth\Events\Login;
 
 class LoginListener
 {
@@ -17,11 +17,10 @@ class LoginListener
     /**
      * Handle the event.
      */
-    public function handle(\Illuminate\Auth\Events\Login $event): void
+    public function handle(Login $event): void
     {
         $user = $event->user;
 
         // Assign roles
     }
-
 }

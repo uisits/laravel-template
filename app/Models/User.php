@@ -13,7 +13,11 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements FilamentUser
 {
-    use HasApiTokens, HasFactory, HasPanelShield, HasRoles, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use HasPanelShield;
+    use HasRoles;
+    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -59,5 +63,4 @@ class User extends Authenticatable implements FilamentUser
 
         return str_ends_with($this->email, '@uis.edu');
     }
-
 }

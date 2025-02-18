@@ -23,7 +23,7 @@ return [
         'token_url' => env('OIDC_TOKEN_URL'),
         'user_url' => env('OIDC_USER_URL'),
         'logout_url' => env('OIDC_LOGOUT_URL'),
-        'redirect' => env('APP_URL').'/auth/callback',
+        'redirect' => env('APP_URL') . '/auth/callback',
         'scopes' => ['openid', 'profile', 'email', 'offline_access'],
     ],
 
@@ -42,7 +42,7 @@ return [
     'saml' => [
         'auth_url' => env('SAML_LOGIN_URL'),
         'logout_url' => env('SAML_LOGOUT_URL'),
-        'redirect' => env('APP_URL').'/auth/callback',
+        'redirect' => env('APP_URL') . '/auth/callback',
         'entitlement' => 'isMemberOf',
         'user' => ['sn', 'givenName', 'name', 'mail', 'iTrustUIN'],
     ],
