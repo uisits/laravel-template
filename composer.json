@@ -28,8 +28,9 @@
         "yajra/laravel-oci8": "^11.0"
     },
     "require-dev": {
-        "laravel-shift/blueprint": "^2.5",
+        "barryvdh/laravel-debugbar": "^3.14",
         "fakerphp/faker": "^1.23",
+        "laravel-shift/blueprint": "^2.5",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",

@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                         'password' => Hash::make('P@ssw0rd'),
                     ]
                 );
-                $user->assignRole('panel_user');
+                $user->assignRole(['panel_user', 'super_admin']);
             }
         });
     }
