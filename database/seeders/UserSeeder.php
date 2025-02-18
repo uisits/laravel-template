@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Ldap\LdapUser;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,9 +16,9 @@ class UserSeeder extends Seeder
     {
         // Developers
         collect([
-            'tllos1', 'kmcel2', 'pchin3', 'vhube3', 'mari4', 'aayen3'
+            'tllos1', 'kmcel2', 'pchin3', 'vhube3', 'mari4', 'aayen3',
         ])->each(function (string $netid) {
-            $adUser = \App\Ldap\User::where('cn', $netid)->first();
+            $adUser = LdapUser::where('cn', $netid)->first();
             if ($adUser) {
                 $user = User::updateOrCreate(
                     [

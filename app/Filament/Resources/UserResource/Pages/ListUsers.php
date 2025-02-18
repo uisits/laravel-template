@@ -3,8 +3,10 @@
 namespace App\Filament\Resources\UserResource\Pages;
 
 use App\Filament\Resources\UserResource;
+use App\Ldap\LdapUser;
 use App\Models\User;
-use Filament\Actions;
+use Filament\Actions\Action;
+use Filament\Actions\CreateAction;
 use Filament\Forms\Components\TextInput;
 use Filament\Notifications\Notification;
 use Filament\Resources\Pages\ListRecords;
@@ -17,9 +19,9 @@ class ListUsers extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
+            CreateAction::make()
                 ->icon('heroicon-o-plus-circle'),
-            Actions\Action::make('create_user_from_ad')
+            Action::make('create_user_from_ad')
                 ->label('Create User from AD')
                 ->icon('heroicon-o-plus-circle')
                 ->model(User::class)
@@ -32,9 +34,9 @@ class ListUsers extends ListRecords
                 ])
                 ->action(function ($data) {
                     if (isset($data['netid'])) {
-                        $adUser = \App\Ldap\User::where('cn', $data['netid'])->firstOrFail();
+                        $adUser = LdapUser::where('cn', $data['netid'])->firstOrFail();
                     } else {
-                        $adUser = \App\Ldap\User::where('extensionattribute1', $data['uin'])->firstOrFail();
+                        $adUser = LdapUser::where('extensionattribute1', $data['uin'])->firstOrFail();
                     }
                     User::updateOrCreate(
                         ['email' => $adUser->email],
