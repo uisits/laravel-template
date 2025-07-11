@@ -13,7 +13,6 @@
         "laravel/framework": "^12.0",
         "laravel/horizon": "^5.29",
         "laravel/octane": "^2.3",
-        "laravel/pulse": "^1.0",
         "laravel/sanctum": "^4.0",
         "laravel/socialite": "^5.12",
         "laravel/telescope": "^5.0",
@@ -21,10 +20,10 @@
         "league/flysystem-aws-s3-v3": "^3.0",
         "shuvroroy/filament-spatie-laravel-health": "*",
         "spatie/cpu-load-health-check": "^1.0",
-        "spatie/laravel-permission": "^6.4",
+        "spatie/laravel-permission": "^6.20",
         "stechstudio/filament-impersonate": "^3.6",
         "stephenjude/filament-debugger": "^4.0",
-        "uisits/laravel-oidc": "^1.0",
+        "uisits/laravel-oidc": "^2.0",
         "yajra/laravel-oci8": "^12.0"
     },
     "require-dev": {

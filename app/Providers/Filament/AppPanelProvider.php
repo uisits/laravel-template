@@ -74,6 +74,10 @@ class AppPanelProvider extends PanelProvider
                     ->authorize(fn () => auth()->user()->hasRole('super_admin')),
                 DebuggerPlugin::make()
                     ->navigationGroup(label: 'Debugger')
+                    ->pulseNavigation(
+                        condition: fn () => false,
+                        url: url('pulse'),
+                    )
                     ->authorize(fn () => auth()->user()->hasRole('super_admin')),
             ])
             ->middleware([
@@ -101,9 +105,10 @@ class AppPanelProvider extends PanelProvider
     public function boot(): void
     {
         FilamentAsset::register([
-            Js::make('google-analytics', 'https://www.googletagmanager.com/gtag/js?id=UA-125366978-1'),
-            Js::make('onetrust', 'https://cdn.cookielaw.org/consent/3ca42bb6-c1b2-4c5d-9e95-b3c10f01a06c.js'),
-            Js::make('custom-script', __DIR__ . '/../../../resources/js/custom.js'),
+            Js::make('google-analytics', 'https://www.googletagmanager.com/gtag/js?id=G-1MYK4MWNW9'),
         ]);
+
+        // Inject the script tag with custom attributes
+        FilamentView::registerRenderHook('panels::body.end', fn () => '<script defer src="https://onetrust.techservices.illinois.edu/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="698d1fb7-b06b-4591-adbf-ac44ae3ef77b"></script>');
     }
 }

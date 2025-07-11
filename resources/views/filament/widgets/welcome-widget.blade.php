@@ -1,5 +1,5 @@
 <x-filament-widgets::widget>
-    <x-filament::section>
+    <x-filament::section class="prose">
         <x-filament::section.heading>
             Welcome to {{ config('app.name') }}
         </x-filament::section.heading>

@@ -4,7 +4,6 @@ use App\Http\Controllers\Filament\LogoutController;
 use Filament\Actions\Exports\Http\Controllers\DownloadExport;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
-use UisIts\Oidc\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,7 +39,3 @@ if (app()->isLocal()) {
         ->name('filament.exports.download')
         ->middleware(['web', 'auth']);
 }
-
-Route::name('login')->get('login', [AuthController::class, 'login']);
-Route::name('callback')->get('/auth/callback', [AuthController::class, 'callback']);
-Route::name('logout')->get('/logout', [AuthController::class, 'logout']);
