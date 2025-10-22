@@ -32,8 +32,10 @@ return [
     */
 
     'deprecations' => [
+        'driver' => 'single',
         'channel' => env('LOG_DEPRECATIONS_CHANNEL', 'null'),
-        'trace' => env('LOG_DEPRECATIONS_TRACE', false),
+        'trace' => env('LOG_DEPRECATIONS_TRACE', true),
+        'path' => storage_path('logs/php-deprecation-warnings.log'),
     ],
 
     /*
