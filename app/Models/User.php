@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Exception;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
@@ -47,15 +48,14 @@ class User extends Authenticatable implements FilamentUser
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'created_at' => 'datetime',
-        'updated_at' => 'datetime',
     ];
 
     /**
      * Determines whether the user can access the panel.
      *
-     * @param  Panel  $panel  The panel to check access for.
+     * @param Panel $panel The panel to check access for.
      * @return bool Returns true if the user can access the panel, false otherwise.
+     * @throws Exception
      */
     public function canAccessPanel(Panel $panel): bool
     {

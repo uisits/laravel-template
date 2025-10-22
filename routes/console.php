@@ -8,7 +8,7 @@ Schedule::command(
     ['--hours' => 72]
 )->dailyAt('02:00');
 
-// Health Check
-Schedule::command(
-    \Spatie\Health\Commands\RunHealthChecksCommand::class
-)->everyMinute();
+Schedule::call(function () {
+    DB::statement('OPTIMIZE TABLE telescope_entries');
+    $this->info('Table `telescope_entries` successfully optimized.');
+})->dailyAt('03:00')->withoutOverlapping();

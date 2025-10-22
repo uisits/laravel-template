@@ -11,6 +11,7 @@ npm-debug.log
 yarn-error.log
 **/.DS_Store
 .idea
+.claude
 **/caddy
 frankenphp
 frankenphp-worker.php

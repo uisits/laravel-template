@@ -35,4 +35,18 @@ return [
         ],
     ],
 
+    'directory' => [
+        'base_url' => env('DIRECTORY_BASE_URL', 'https://apps.uis.edu/directory'),
+    ],
+
+    'placements' => [
+        'base_url' =>  env('APPS_PLACEMENTS_URL', null),
+        'token' => env('APPS_PLACEMENTS_TOKEN', null),
+    ],
+
+    'lms_tools' => [
+        'base_url' => env('APPS_LMS_TOOLS_URL', null),
+        'token' => env('APPS_LMS_TOOLS_TOKEN', null),
+    ],
+
 ];

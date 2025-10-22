@@ -13,10 +13,10 @@ use Filament\Panel;
 use Filament\PanelProvider;
 use Filament\Support\Assets\Js;
 use Filament\Support\Colors\Color;
-use Filament\Support\Enums\MaxWidth;
+use Filament\Support\Enums\Width;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentView;
-use Filament\Widgets;
+use Filament\View\PanelsRenderHook;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
 use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
@@ -25,7 +25,6 @@ use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 use Stephenjude\FilamentDebugger\DebuggerPlugin;
 
 class AppPanelProvider extends PanelProvider
@@ -39,7 +38,7 @@ class AppPanelProvider extends PanelProvider
             ->path('/')
             ->sidebarCollapsibleOnDesktop()
             ->databaseNotifications()
-            ->maxContentWidth(MaxWidth::Full)
+            ->maxContentWidth(Width::Full)
             ->defaultThemeMode(ThemeMode::Light)
             // Application changes for UIS
             ->favicon(asset('/favicon.ico'))
@@ -49,10 +48,6 @@ class AppPanelProvider extends PanelProvider
                 'primary' => Color::Indigo,
                 'gray' => Color::Slate,
             ])
-            ->renderHook(
-                'panels::body.end',
-                fn () => view('footer'),
-            )
             ->viteTheme('resources/css/filament/app/theme.css')
             // Filament additional configs
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
@@ -70,8 +65,6 @@ class AppPanelProvider extends PanelProvider
             ])
             ->plugins([
                 FilamentShieldPlugin::make(),
-                FilamentSpatieLaravelHealthPlugin::make()
-                    ->authorize(fn () => auth()->user()->hasRole('super_admin')),
                 DebuggerPlugin::make()
                     ->navigationGroup(label: 'Debugger')
                     ->pulseNavigation(
@@ -99,7 +92,13 @@ class AppPanelProvider extends PanelProvider
     public function register(): void
     {
         parent::register();
+        FilamentView::registerRenderHook(
+            PanelsRenderHook::BODY_END,
+            fn (): string => Blade::render('footer')
+        );
         FilamentView::registerRenderHook('panels::body.end', fn (): string => Blade::render("@vite('resources/js/app.js')"));
+        // Inject the script tag with custom attributes
+        FilamentView::registerRenderHook('panels::body.end', fn () => '<script defer src="https://onetrust.techservices.illinois.edu/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="698d1fb7-b06b-4591-adbf-ac44ae3ef77b"></script>');
     }
 
     public function boot(): void
@@ -107,8 +106,5 @@ class AppPanelProvider extends PanelProvider
         FilamentAsset::register([
             Js::make('google-analytics', 'https://www.googletagmanager.com/gtag/js?id=G-1MYK4MWNW9'),
         ]);
-
-        // Inject the script tag with custom attributes
-        FilamentView::registerRenderHook('panels::body.end', fn () => '<script defer src="https://onetrust.techservices.illinois.edu/scripttemplates/otSDKStub.js" type="text/javascript" charset="UTF-8" data-domain-script="698d1fb7-b06b-4591-adbf-ac44ae3ef77b"></script>');
     }
 }
