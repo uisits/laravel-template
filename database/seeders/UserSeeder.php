@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Ldap\LdapUser;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
@@ -14,6 +15,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        Artisan::call('shield:generate --panel=app -n --all');
+
         // Developers
         collect([
             'tllos1', 'kmcel2', 'pchin3', 'vhube3', 'mari4', 'aayen3',
@@ -34,7 +37,7 @@ class UserSeeder extends Seeder
                         'password' => Hash::make('P@ssw0rd'),
                     ]
                 );
-                $user->assignRole(['panel_user', 'super_admin']);
+                Artisan::call('shield:super-admin --panel=app -n --user=' . $user->id);
             }
         });
     }

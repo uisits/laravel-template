@@ -11,4 +11,7 @@ Schedule::command(
 Schedule::call(function () {
     DB::statement('OPTIMIZE TABLE telescope_entries');
     $this->info('Table `telescope_entries` successfully optimized.');
-})->dailyAt('03:00')->withoutOverlapping();
+})
+    ->name('optimize:telescope-tables')
+    ->dailyAt('03:00')
+    ->withoutOverlapping();
