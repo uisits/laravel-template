@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 /*
 |--------------------------------------------------------------------------
 | Test Case
@@ -12,8 +14,8 @@
 */
 
 pest()->extend(Tests\TestCase::class)
- // ->use(Illuminate\Foundation\Testing\RefreshDatabase::class)
-    ->in('Feature');
+    ->use(RefreshDatabase::class)
+    ->in('Feature', 'Unit');
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +43,40 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+/**
+ * Create a user with a specific role
+ */
+function createUserWithRole(string $roleName): App\Models\User
 {
-    // ..
+    $user = App\Models\User::factory()->create();
+    $role = Spatie\Permission\Models\Role::firstOrCreate(['name' => $roleName]);
+    $user->assignRole($role);
+
+    return $user;
+}
+
+/**
+ * Create a user with specific permissions
+ */
+function createUserWithPermissions(array $permissions): App\Models\User
+{
+    $user = App\Models\User::factory()->create();
+
+    foreach ($permissions as $permission) {
+        $perm = Spatie\Permission\Models\Permission::firstOrCreate(['name' => $permission]);
+        $user->givePermissionTo($perm);
+    }
+
+    return $user;
+}
+
+/**
+ * Act as authenticated user
+ */
+function actingAsUser(?App\Models\User $user = null): App\Models\User
+{
+    $user = $user ?? App\Models\User::factory()->create();
+    test()->actingAs($user);
+
+    return $user;
 }
