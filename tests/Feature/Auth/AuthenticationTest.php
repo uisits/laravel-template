@@ -35,7 +35,7 @@ test('user has sanctum token functionality', function () {
     // Verify the HasApiTokens trait is being used
     expect(method_exists($user, 'createToken'))->toBeTrue()
         ->and(method_exists($user, 'tokens'))->toBeTrue();
-})->skip('Requires Sanctum migrations');
+});
 
 test('sanctum is configured', function () {
     // Verify Sanctum is installed

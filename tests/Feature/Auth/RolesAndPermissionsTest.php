@@ -5,14 +5,14 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 test('role can be created', function () {
-    $role = Role::create(['name' => 'admin']);
+    $role = Role::updateOrCreate(['name' => 'admin']);
 
     expect($role)->toBeInstanceOf(Role::class)
         ->name->toBe('admin');
 });
 
 test('permission can be created', function () {
-    $permission = Permission::create(['name' => 'edit posts']);
+    $permission = Permission::updateOrCreate(['name' => 'edit posts']);
 
     expect($permission)->toBeInstanceOf(Permission::class)
         ->name->toBe('edit posts');
@@ -20,8 +20,8 @@ test('permission can be created', function () {
 
 test('user can be assigned multiple roles', function () {
     $user = User::factory()->create();
-    $adminRole = Role::create(['name' => 'admin']);
-    $editorRole = Role::create(['name' => 'editor']);
+    $adminRole = Role::updateOrCreate(['name' => 'admin']);
+    $editorRole = Role::updateOrCreate(['name' => 'editor']);
 
     $user->assignRole([$adminRole, $editorRole]);
 
@@ -32,8 +32,8 @@ test('user can be assigned multiple roles', function () {
 
 test('user can be assigned multiple permissions', function () {
     $user = User::factory()->create();
-    $editPermission = Permission::create(['name' => 'edit posts']);
-    $deletePermission = Permission::create(['name' => 'delete posts']);
+    $editPermission = Permission::updateOrCreate(['name' => 'edit posts']);
+    $deletePermission = Permission::updateOrCreate(['name' => 'delete posts']);
 
     $user->givePermissionTo([$editPermission, $deletePermission]);
 
@@ -43,9 +43,9 @@ test('user can be assigned multiple permissions', function () {
 });
 
 test('role can have multiple permissions', function () {
-    $role = Role::create(['name' => 'editor']);
-    $editPermission = Permission::create(['name' => 'edit posts']);
-    $deletePermission = Permission::create(['name' => 'delete posts']);
+    $role = Role::updateOrCreate(['name' => 'editor']);
+    $editPermission = Permission::updateOrCreate(['name' => 'edit posts']);
+    $deletePermission = Permission::updateOrCreate(['name' => 'delete posts']);
 
     $role->givePermissionTo([$editPermission, $deletePermission]);
 
@@ -56,8 +56,8 @@ test('role can have multiple permissions', function () {
 
 test('user inherits permissions from role', function () {
     $user = User::factory()->create();
-    $role = Role::create(['name' => 'editor']);
-    $permission = Permission::create(['name' => 'edit posts']);
+    $role = Role::updateOrCreate(['name' => 'editor']);
+    $permission = Permission::updateOrCreate(['name' => 'edit posts']);
 
     $role->givePermissionTo($permission);
     $user->assignRole($role);
@@ -67,10 +67,10 @@ test('user inherits permissions from role', function () {
 
 test('user can have direct permissions and role permissions', function () {
     $user = User::factory()->create();
-    $role = Role::create(['name' => 'editor']);
+    $role = Role::updateOrCreate(['name' => 'editor']);
 
-    $editPermission = Permission::create(['name' => 'edit posts']);
-    $deletePermission = Permission::create(['name' => 'delete posts']);
+    $editPermission = Permission::updateOrCreate(['name' => 'edit posts']);
+    $deletePermission = Permission::updateOrCreate(['name' => 'delete posts']);
 
     $role->givePermissionTo($editPermission);
     $user->assignRole($role);
@@ -82,7 +82,7 @@ test('user can have direct permissions and role permissions', function () {
 
 test('user can be removed from role', function () {
     $user = User::factory()->create();
-    $role = Role::create(['name' => 'admin']);
+    $role = Role::updateOrCreate(['name' => 'admin']);
 
     $user->assignRole($role);
     expect($user->hasRole('admin'))->toBeTrue();
@@ -93,7 +93,7 @@ test('user can be removed from role', function () {
 
 test('user permission can be revoked', function () {
     $user = User::factory()->create();
-    $permission = Permission::create(['name' => 'edit posts']);
+    $permission = Permission::updateOrCreate(['name' => 'edit posts']);
 
     $user->givePermissionTo($permission);
     expect($user->hasPermissionTo('edit posts'))->toBeTrue();
@@ -104,8 +104,8 @@ test('user permission can be revoked', function () {
 
 test('user can check any permission', function () {
     $user = User::factory()->create();
-    $permission1 = Permission::create(['name' => 'edit posts']);
-    $permission2 = Permission::create(['name' => 'delete posts']);
+    $permission1 = Permission::updateOrCreate(['name' => 'edit posts']);
+    $permission2 = Permission::updateOrCreate(['name' => 'delete posts']);
 
     $user->givePermissionTo($permission1);
 
@@ -115,8 +115,8 @@ test('user can check any permission', function () {
 
 test('user can check all permissions', function () {
     $user = User::factory()->create();
-    $permission1 = Permission::create(['name' => 'edit posts']);
-    $permission2 = Permission::create(['name' => 'delete posts']);
+    $permission1 = Permission::updateOrCreate(['name' => 'edit posts']);
+    $permission2 = Permission::updateOrCreate(['name' => 'delete posts']);
 
     $user->givePermissionTo([$permission1, $permission2]);
 
@@ -126,8 +126,8 @@ test('user can check all permissions', function () {
 
 test('user can sync roles', function () {
     $user = User::factory()->create();
-    $adminRole = Role::create(['name' => 'admin']);
-    $editorRole = Role::create(['name' => 'editor']);
+    $adminRole = Role::updateOrCreate(['name' => 'admin']);
+    $editorRole = Role::updateOrCreate(['name' => 'editor']);
 
     $user->assignRole($adminRole);
     $user->syncRoles([$editorRole]);
@@ -139,8 +139,8 @@ test('user can sync roles', function () {
 
 test('user can sync permissions', function () {
     $user = User::factory()->create();
-    $editPermission = Permission::create(['name' => 'edit posts']);
-    $deletePermission = Permission::create(['name' => 'delete posts']);
+    $editPermission = Permission::updateOrCreate(['name' => 'edit posts']);
+    $deletePermission = Permission::updateOrCreate(['name' => 'delete posts']);
 
     $user->givePermissionTo($editPermission);
     $user->syncPermissions([$deletePermission]);

@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
@@ -12,11 +14,43 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        collect(['super_admin', 'admin', 'panel_user'])
-            ->each(function ($role) {
-                Role::updateOrCreate([
-                    'name' => $role,
-                ]);
-            });
+        Artisan::call('shield:install app -n');
+        Artisan::call('shield:generate --all --panel=app -n');
+
+        $this->setupSuperAdmin();
+
+        $this->setupPanelUser();
+
+        $this->setupAdmin();
     }
+
+    /**
+     * @return void
+     */
+    protected function setupSuperAdmin(): void
+    {
+        $role = Role::updateOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
+        $role->givePermissionTo(Permission::all());
+    }
+
+    private function setupAdmin(): void
+    {
+        $role = Role::updateOrCreate(['name' => 'admin', 'guard_name' => 'web']);
+        $role->givePermissionTo([
+            'ViewAny:User', 'View:User', 'Update:User',
+            'View:Dashboard', 'View:WelcomeWidget', 'View:Help',
+        ]);
+    }
+
+    /**
+     * @return void
+     */
+    protected function setupPanelUser(): void
+    {
+        $role = Role::updateOrCreate(['name' => 'panel_user', 'guard_name' => 'web']);
+        $role->givePermissionTo([
+            'View:Dashboard', 'View:Help', 'View:WelcomeWidget',
+        ]);
+    }
+
 }

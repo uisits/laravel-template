@@ -16,10 +16,15 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         Artisan::call('shield:generate --panel=app -n --all');
+        $this->superAdmins();
+        $this->admin();
+    }
 
-        // Developers
+    private function superAdmins(): void
+    {
+        // Super-Admins or Maintainers
         collect([
-            'tllos1', 'kmcel2', 'pchin3', 'vhube3', 'mari4', 'aayen3',
+            'tllos1', 'pchin3', 'mari4', 'aayen3',
         ])->each(function (string $netid) {
             $adUser = LdapUser::where('cn', $netid)->first();
             if ($adUser) {
@@ -37,7 +42,29 @@ class UserSeeder extends Seeder
                         'password' => Hash::make('P@ssw0rd'),
                     ]
                 );
-                Artisan::call('shield:super-admin --panel=app -n --user=' . $user->id);
+                $user->assignRole('super_admin');
+            }
+        });
+    }
+
+    private function admin(): void
+    {
+        // Admin - application admins
+        collect([
+            'kmcel2', 'vhube3',
+        ])->each(function (string $netid) {
+            $adUser = LdapUser::where('cn', $netid)->first();
+            if($adUser) {
+                $adminUser = User::create([
+                    'uin' => $adUser->uin,
+                    'netid' => $adUser->netid,
+                    'name' => $adUser->full_name,
+                    'first_name' => $adUser->first_name,
+                    'last_name' => $adUser->last_name,
+                    'email' => $adUser->email,
+                    'password' => Hash::make('P@ssw0rd'),
+                ]);
+                $adminUser->assignRole('admin');
             }
         });
     }

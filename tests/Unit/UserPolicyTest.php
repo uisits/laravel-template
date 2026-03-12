@@ -132,7 +132,7 @@ test('policy methods check correct permissions', function () {
     ];
 
     foreach ($permissions as $permission) {
-        Permission::create(['name' => $permission]);
+        Permission::updateOrCreate(['name' => $permission]);
     }
 
     $user = User::factory()->create();

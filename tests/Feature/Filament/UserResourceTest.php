@@ -12,15 +12,9 @@ use Livewire\Livewire;
 
 // Skip Livewire tests for now as they require full Filament panel initialization
 test('users index page can be rendered', function () {
-    $user = createUserWithPermissions(['ViewAny:User']);
-
     // Verify the page class exists
     expect(class_exists(ListUsers::class))->toBeTrue();
-})->skip('Requires full Filament panel initialization');
-
-// Skip Livewire-based tests as they require full panel initialization
-test('user resource structure is valid')
-    ->skip('Requires full Filament panel initialization');
+});
 
 test('user resource has correct model', function () {
     expect(UserResource::getModel())->toBe(User::class);
@@ -62,4 +56,46 @@ test('user policy is configured for resource', function () {
 
     // Verify that policy methods exist
     expect(method_exists($user, 'can'))->toBeTrue();
+});
+
+it('shows the create user page to super admin', function() {
+    Livewire::actingAs(superAdmin())
+        ->test(CreateUser::class)
+        ->assertSee('Create User');
+});
+
+it('does not show the create page to admin', function() {
+    Livewire::actingAs(admin())
+        ->test(CreateUser::class)
+        ->assertForbidden();
+});
+
+it('allows super admin to create user', function() {
+    $user = User::factory()->make();
+    Livewire::actingAs(superAdmin())
+        ->test(CreateUser::class)
+        ->fillForm([
+            'name' => $user->name,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'netid' => $user->netid,
+            'uin' => $user->uin,
+            'email' => $user->email,
+        ])
+        ->assertSchemaStateSet([
+            'name' => $user->name,
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'netid' => $user->netid,
+            'uin' => $user->uin,
+            'email' => $user->email,
+        ])
+        ->call('create');
+    expect(User::where('uin', $user->uin)->exists())->toBeTrue();
+});
+
+it('does not allows admin to create user', function() {
+    Livewire::actingAs(admin())
+        ->test(CreateUser::class)
+        ->assertForbidden();
 });

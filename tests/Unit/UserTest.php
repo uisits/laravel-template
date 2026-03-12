@@ -2,6 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 test('user can be created with factory', function () {
     $user = User::factory()->create([
@@ -48,7 +50,7 @@ test('user email verified at is cast to datetime', function () {
 
 test('user can be assigned roles', function () {
     $user = User::factory()->create();
-    $role = \Spatie\Permission\Models\Role::create(['name' => 'admin']);
+    $role = Role::updateOrCreate(['name' => 'admin']);
 
     $user->assignRole($role);
 
@@ -57,7 +59,7 @@ test('user can be assigned roles', function () {
 
 test('user can be assigned permissions', function () {
     $user = User::factory()->create();
-    $permission = \Spatie\Permission\Models\Permission::create(['name' => 'edit posts']);
+    $permission = Permission::create(['name' => 'edit posts']);
 
     $user->givePermissionTo($permission);
 
@@ -66,8 +68,8 @@ test('user can be assigned permissions', function () {
 
 test('user can check permission via role', function () {
     $user = User::factory()->create();
-    $role = \Spatie\Permission\Models\Role::create(['name' => 'editor']);
-    $permission = \Spatie\Permission\Models\Permission::create(['name' => 'edit posts']);
+    $role = Role::create(['name' => 'editor']);
+    $permission = Permission::create(['name' => 'edit posts']);
 
     $role->givePermissionTo($permission);
     $user->assignRole($role);

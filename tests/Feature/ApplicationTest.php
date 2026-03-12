@@ -5,7 +5,7 @@ use App\Models\User;
 test('application returns a response', function () {
     $response = $this->get('/');
 
-    // Application may show homepage or redirect to login
+    // Application may show a homepage or redirect to log in
     expect($response->status())->toBeIn([200, 302]);
 });
 

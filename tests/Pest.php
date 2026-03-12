@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,7 +73,7 @@ function createUserWithPermissions(array $permissions): App\Models\User
 }
 
 /**
- * Act as authenticated user
+ * Act as an authenticated user
  */
 function actingAsUser(?App\Models\User $user = null): App\Models\User
 {
@@ -79,4 +81,38 @@ function actingAsUser(?App\Models\User $user = null): App\Models\User
     test()->actingAs($user);
 
     return $user;
+}
+
+function superAdmin(): User
+{
+    $user = User::factory()->create();
+    $user->assignRole(['panel_user', 'super_admin']);
+    return $user;
+}
+
+function admin(): User
+{
+    $user = User::factory()->create();
+    $user->assignRole(['panel_user', 'admin']);
+    return $user;
+}
+function panelUser(): User
+{
+    $user = User::factory()->create();
+    $user->assignRole(['panel_user']);
+    return $user;
+}
+function asSuperAdmin(): TestCase
+{
+    return test()->actingAs(superAdmin());
+}
+
+function asAdmin(): TestCase
+{
+    return test()->actingAs(admin());
+}
+
+function asPanelUser(): TestCase
+{
+    return test()->actingAs(panelUser());
 }
