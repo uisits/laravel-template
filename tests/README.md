@@ -2,6 +2,11 @@
 
 This test suite is built using [PestPHP](https://pestphp.com/), a delightful PHP testing framework with a focus on simplicity.
 
+# Setup
+> [!CAUTION]
+> Please make sure that the entry `<env name="DB_CONNECTION" value="sqlite"/>` is set to `sqlite` in the `phpunit.xml` file.
+> Setting it to any other value will wipe the database and loose all data.
+
 ## Running Tests
 
 Run all tests:
@@ -25,9 +30,15 @@ Run tests with coverage:
 php artisan test --coverage
 ```
 
-Run specific test file:
+Run a specific test file:
 ```bash
 php artisan test tests/Unit/UserTest.php
+```
+
+Run tests in a folder:
+```bash
+php artisan test tests/Unit/
+php artisan test tests/Feature/Auth/
 ```
 
 Run tests in parallel (faster):
@@ -38,12 +49,20 @@ php artisan test --parallel
 ## Test Structure
 
 ### Unit Tests (`tests/Unit/`)
+
+> [!NOTE]
+> Unit testing is a method of software testing where individual, isolated components or "units" of code, typically functions or methods, are tested to ensure they work as expected according to the developer's logic.
+
 - **UserTest.php** - Tests for User model functionality, attributes, and relationships
 - **UserPolicyTest.php** - Tests for user authorization policies
 - **FactoriesTest.php** - Tests for database factories
 - **Helpers/StudentClassTest.php** - Tests for helper classes (placeholder tests included)
 
 ### Feature Tests (`tests/Feature/`)
+
+> [!NOTE]
+> Feature testing is a software development process that evaluates individual features of an application to ensure they function as intended, meet specifications, and deliver an improved user experience.
+
 - **Auth/AuthenticationTest.php** - Tests for authentication flows
 - **Auth/FilamentPanelAccessTest.php** - Tests for Filament panel access control
 - **Auth/RolesAndPermissionsTest.php** - Tests for role and permission management
