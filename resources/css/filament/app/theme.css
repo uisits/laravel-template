@@ -3,3 +3,41 @@
 @source '../../../../app/Filament/**/*';
 @source '../../../../resources/views/filament/**/*';
 @source '../../../../resources/views/**/*';
+
+.fi-topbar-start {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.fi-topbar-item-btn {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.fi-select-input {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.fi-pagination-item-btn {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.fi-in-entry-content {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.fi-ac-link-action {
+    min-width: 44px;
+    min-height: 44px;
+}
+
+.fi-in-text {
+    line-height: 1.5;
+}
+
+.fi-in-entry {
+    line-height: 1.5;
+}
