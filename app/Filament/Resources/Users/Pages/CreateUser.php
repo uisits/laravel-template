@@ -10,11 +10,4 @@ use Illuminate\Support\Str;
 class CreateUser extends CreateRecord
 {
     protected static string $resource = UserResource::class;
-
-    protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $data['password'] = Hash::make(Str::random(5));
-
-        return $data;
-    }
 }
