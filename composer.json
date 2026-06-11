@@ -20,7 +20,7 @@
         "spatie/laravel-permission": "^6.20",
         "stechstudio/filament-impersonate": "^4.0",
         "stephenjude/filament-debugger": "^4.0",
-        "uisits/laravel-oidc": "^2.1",
+        "uisits/laravel-oidc": "^3.0",
         "yajra/laravel-oci8": "^12.0"
     },
     "require-dev": {
