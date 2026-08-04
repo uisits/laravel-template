@@ -9,8 +9,7 @@
     "mcp": true,
     "nightwatch": false,
     "packages": [
-        "filament/filament",
-        "tightenco/duster"
+        "filament/filament"
     ],
     "sail": false,
     "skills": [
@@ -18,6 +17,8 @@
         "configuring-horizon",
         "octane-development",
         "pest-testing",
-        "tailwindcss-development"
+        "tailwindcss-development",
+        "uis-campus-integrations",
+        "uis-filament-feature"
     ]
 }
