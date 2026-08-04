@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Database\Factories\UserFactory;
+use Spatie\Permission\Models\Role;
 
 test('user factory exists', function () {
     expect(class_exists(UserFactory::class))->toBeTrue();
@@ -70,7 +71,7 @@ test('user factory can create user with relationships', function () {
         ->create();
 
     // Can assign roles after creation
-    $role = \Spatie\Permission\Models\Role::create(['name' => 'test-role']);
+    $role = Role::create(['name' => 'test-role']);
     $user->assignRole($role);
 
     expect($user->roles)->toHaveCount(1);

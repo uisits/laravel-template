@@ -54,7 +54,7 @@ class UserSeeder extends Seeder
             'kmcel2', 'vhube3',
         ])->each(function (string $netid) {
             $adUser = LdapUser::where('cn', $netid)->first();
-            if($adUser) {
+            if ($adUser) {
                 $adminUser = User::create([
                     'uin' => $adUser->uin,
                     'netid' => $adUser->netid,

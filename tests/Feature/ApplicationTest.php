@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\User;
-
 test('application returns a response', function () {
     $response = $this->get('/');
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -45,7 +46,7 @@ test('user email verified at is cast to datetime', function () {
         'email_verified_at' => now(),
     ]);
 
-    expect($user->email_verified_at)->toBeInstanceOf(\Illuminate\Support\Carbon::class);
+    expect($user->email_verified_at)->toBeInstanceOf(Carbon::class);
 });
 
 test('user can be assigned roles', function () {
@@ -94,7 +95,7 @@ test('user factory can create unverified user', function () {
 });
 
 test('user uses guarded property correctly', function () {
-    $user = new User();
+    $user = new User;
 
     expect($user->getGuarded())->toBe([]);
 });

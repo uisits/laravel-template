@@ -40,7 +40,7 @@ return [
     ],
 
     'placements' => [
-        'base_url' =>  env('APPS_PLACEMENTS_URL', null),
+        'base_url' => env('APPS_PLACEMENTS_URL', null),
         'token' => env('APPS_PLACEMENTS_TOKEN', null),
     ],
 

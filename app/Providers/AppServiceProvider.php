@@ -28,9 +28,10 @@ class AppServiceProvider extends ServiceProvider
 
         Model::preventLazyLoading(! $this->app->isProduction());
 
-        Http::macro('placements', function() {
+        Http::macro('placements', function () {
             $client = Http::baseUrl(config('services.placements.base_url'))
                 ->withToken(config('services.placements.token'));
+
             return $client;
         });
     }

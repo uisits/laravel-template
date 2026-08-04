@@ -13,8 +13,8 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         // Run migrations for tests
-        //Artisan::call('shield:install app -n');
-        //Artisan::call('shield:generate --all --panel=app -n');
+        // Artisan::call('shield:install app -n');
+        // Artisan::call('shield:generate --all --panel=app -n');
         Artisan::call('db:seed', ['--class' => RoleSeeder::class]);
     }
 }

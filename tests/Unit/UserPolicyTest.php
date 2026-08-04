@@ -5,7 +5,7 @@ use App\Policies\UserPolicy;
 use Spatie\Permission\Models\Permission;
 
 beforeEach(function () {
-    $this->policy = new UserPolicy();
+    $this->policy = new UserPolicy;
 });
 
 test('user can view any users with proper permission', function () {

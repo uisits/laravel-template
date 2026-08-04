@@ -57,19 +57,19 @@ test('user policy is configured for resource', function () {
     expect(method_exists($user, 'can'))->toBeTrue();
 });
 
-it('shows the create user page to super admin', function() {
+it('shows the create user page to super admin', function () {
     Livewire::actingAs(superAdmin())
         ->test(CreateUser::class)
         ->assertSee('Create User');
 });
 
-it('does not show the create page to admin', function() {
+it('does not show the create page to admin', function () {
     Livewire::actingAs(admin())
         ->test(CreateUser::class)
         ->assertForbidden();
 });
 
-it('allows super admin to create user', function() {
+it('allows super admin to create user', function () {
     $user = User::factory()->make();
     Livewire::actingAs(superAdmin())
         ->test(CreateUser::class)
@@ -93,7 +93,7 @@ it('allows super admin to create user', function() {
     expect(User::where('uin', $user->uin)->exists())->toBeTrue();
 });
 
-it('does not allows admin to create user', function() {
+it('does not allows admin to create user', function () {
     Livewire::actingAs(admin())
         ->test(CreateUser::class)
         ->assertForbidden();

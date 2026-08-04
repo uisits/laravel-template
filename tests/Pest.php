@@ -2,6 +2,8 @@
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 /*
@@ -15,7 +17,7 @@ use Tests\TestCase;
 |
 */
 
-pest()->extend(Tests\TestCase::class)
+pest()->extend(TestCase::class)
     ->use(RefreshDatabase::class)
     ->in('Feature', 'Unit');
 
@@ -48,10 +50,10 @@ expect()->extend('toBeOne', function () {
 /**
  * Create a user with a specific role
  */
-function createUserWithRole(string $roleName): App\Models\User
+function createUserWithRole(string $roleName): User
 {
-    $user = App\Models\User::factory()->create();
-    $role = Spatie\Permission\Models\Role::firstOrCreate(['name' => $roleName]);
+    $user = User::factory()->create();
+    $role = Role::firstOrCreate(['name' => $roleName]);
     $user->assignRole($role);
 
     return $user;
@@ -60,12 +62,12 @@ function createUserWithRole(string $roleName): App\Models\User
 /**
  * Create a user with specific permissions
  */
-function createUserWithPermissions(array $permissions): App\Models\User
+function createUserWithPermissions(array $permissions): User
 {
-    $user = App\Models\User::factory()->create();
+    $user = User::factory()->create();
 
     foreach ($permissions as $permission) {
-        $perm = Spatie\Permission\Models\Permission::firstOrCreate(['name' => $permission]);
+        $perm = Permission::firstOrCreate(['name' => $permission]);
         $user->givePermissionTo($perm);
     }
 
@@ -75,9 +77,9 @@ function createUserWithPermissions(array $permissions): App\Models\User
 /**
  * Act as an authenticated user
  */
-function actingAsUser(?App\Models\User $user = null): App\Models\User
+function actingAsUser(?User $user = null): User
 {
-    $user = $user ?? App\Models\User::factory()->create();
+    $user = $user ?? User::factory()->create();
     test()->actingAs($user);
 
     return $user;
@@ -87,6 +89,7 @@ function superAdmin(): User
 {
     $user = User::factory()->create();
     $user->assignRole(['panel_user', 'super_admin']);
+
     return $user;
 }
 
@@ -94,12 +97,14 @@ function admin(): User
 {
     $user = User::factory()->create();
     $user->assignRole(['panel_user', 'admin']);
+
     return $user;
 }
 function panelUser(): User
 {
     $user = User::factory()->create();
     $user->assignRole(['panel_user']);
+
     return $user;
 }
 function asSuperAdmin(): TestCase

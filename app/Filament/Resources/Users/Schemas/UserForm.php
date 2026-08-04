@@ -35,7 +35,7 @@ class UserForm
                     ->required()
                     ->maxLength(255),
                 Hidden::make('password')
-                    ->default(fn() => Hash::make(Str::random(5))),
+                    ->default(fn () => Hash::make(Str::random(5))),
                 CheckboxList::make('roles')
                     ->relationship('roles', 'name')
                     ->searchable(),

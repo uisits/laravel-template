@@ -48,6 +48,7 @@ test('throttle middleware limits requests', function () {
 
         if ($response->status() === 429) {
             expect($response->status())->toBe(429);
+
             return;
         }
     }

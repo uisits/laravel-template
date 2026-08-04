@@ -24,9 +24,6 @@ class RoleSeeder extends Seeder
         $this->setupAdmin();
     }
 
-    /**
-     * @return void
-     */
     protected function setupSuperAdmin(): void
     {
         $role = Role::updateOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
@@ -42,9 +39,6 @@ class RoleSeeder extends Seeder
         ]);
     }
 
-    /**
-     * @return void
-     */
     protected function setupPanelUser(): void
     {
         $role = Role::updateOrCreate(['name' => 'panel_user', 'guard_name' => 'web']);
@@ -52,5 +46,4 @@ class RoleSeeder extends Seeder
             'View:Dashboard', 'View:Help', 'View:WelcomeWidget',
         ]);
     }
-
 }
