@@ -1,6 +1,6 @@
 ---
 name: uis-campus-integrations
-description: "Use this skill for any work touching University of Illinois campus systems in a UIS ITS Laravel application: Shibboleth OIDC login/logout/callback via uisits/laravel-oidc, tri-campus (UIS/UIC/UIUC) provider selection and claim mapping, user provisioning from OIDC or Active Directory, LdapRecord/LdapUser directory lookups, Oracle Campus Data Mart reads via yajra/laravel-oci8 (Models\\Cdm, Models\\Livedata), UIN/NetID identity handling, API token introspection, and external campus HTTP APIs registered as Http macros. Triggers on 'login is broken', 'campus not set', 'look up a user in AD', 'pull student/course data', 'add an Oracle connection', or panel-access rules. Do not use for ordinary Filament UI work — use uis-filament-feature for that."
+description: "Use this skill for any work touching University of Illinois campus systems in a UIS ITS Laravel application: Shibboleth OIDC login/logout/callback via uisits/laravel-oidc, tri-campus (UIS/UIC/UIUC) provider selection and claim mapping, user provisioning from OIDC or Active Directory, LdapRecord/LdapUser directory lookups, Oracle Common Data Model reads via yajra/laravel-oci8 (Models\\Cdm, Models\\Livedata), UIN/NetID identity handling, API token introspection, and external campus HTTP APIs registered as Http macros. Triggers on 'login is broken', 'campus not set', 'look up a user in AD', 'pull student/course data', 'add an Oracle connection', or panel-access rules. Do not use for ordinary Filament UI work — use uis-filament-feature for that."
 license: MIT
 metadata:
   author: UIS ITS
@@ -69,7 +69,7 @@ logged in yet (`UserSeeder`, and the `create_user_from_ad` action in `ListUsers`
 implementations). AD is unreachable from CI and from laptops off-VPN, so never put a live LDAP call
 on a path that unrelated tests must traverse; mock it or use `DirectoryEmulator`.
 
-## Oracle Campus Data Mart
+## Oracle Common Data Model
 
 Connections `oracle_cdm` and `oracle_cdm_pvt` are defined in `config/oracle.php` (env `DB_*_3`,
 `DB_*_4`) using `yajra/laravel-oci8`.
