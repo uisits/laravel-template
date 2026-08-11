@@ -69,7 +69,7 @@ logged in yet (`UserSeeder`, and the `create_user_from_ad` action in `ListUsers`
 implementations). AD is unreachable from CI and from laptops off-VPN, so never put a live LDAP call
 on a path that unrelated tests must traverse; mock it or use `DirectoryEmulator`.
 
-## Oracle Campus Data Mart
+## Oracle Common Data Model
 
 Connections `oracle_cdm` and `oracle_cdm_pvt` are defined in `config/oracle.php` (env `DB_*_3`,
 `DB_*_4`) using `yajra/laravel-oci8`.

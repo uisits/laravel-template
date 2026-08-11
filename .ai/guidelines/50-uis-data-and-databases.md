@@ -5,7 +5,7 @@
 | Connection | Driver | Purpose |
 | --- | --- | --- |
 | default (`DB_CONNECTION`) | mysql / sqlite | The application's own tables |
-| `oracle_cdm`, `oracle_cdm_pvt` | `yajra/laravel-oci8` (`config/oracle.php`) | Campus Data Mart — **read-only** |
+| `oracle_cdm`, `oracle_cdm_pvt` | `yajra/laravel-oci8` (`config/oracle.php`) | Common Data Model — **read-only** |
 | Redis | phpredis | Queues (Horizon), cache/session in production |
 | LDAP | `config/ldap.php` | Active Directory lookups |
 
