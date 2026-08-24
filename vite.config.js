@@ -5,11 +5,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineConfig({
     server: {
         port: 5173,
-        https: {
-            key: '/etc/ssl/private/server_key.key',
-            cert: '/etc/ssl/certs/server_cert.cer',
-        },
-        host: 'courseregistrationworksheet.apps.uis.edu',
     },
     plugins: [
         tailwindcss(),
