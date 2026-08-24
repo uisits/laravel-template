@@ -24,13 +24,18 @@ class RoleSeeder extends Seeder
         $this->setupAdmin();
     }
 
-    /**
-     * @return void
-     */
     protected function setupSuperAdmin(): void
     {
         $role = Role::updateOrCreate(['name' => 'super_admin', 'guard_name' => 'web']);
         $role->givePermissionTo(Permission::all());
+    }
+
+    protected function setupPanelUser(): void
+    {
+        $role = Role::updateOrCreate(['name' => 'panel_user', 'guard_name' => 'web']);
+        $role->givePermissionTo([
+            'View:Dashboard', 'View:Help',
+        ]);
     }
 
     private function setupAdmin(): void
@@ -38,19 +43,7 @@ class RoleSeeder extends Seeder
         $role = Role::updateOrCreate(['name' => 'admin', 'guard_name' => 'web']);
         $role->givePermissionTo([
             'ViewAny:User', 'View:User', 'Update:User',
-            'View:Dashboard', 'View:WelcomeWidget', 'View:Help',
+            'View:Dashboard', 'View:Help',
         ]);
     }
-
-    /**
-     * @return void
-     */
-    protected function setupPanelUser(): void
-    {
-        $role = Role::updateOrCreate(['name' => 'panel_user', 'guard_name' => 'web']);
-        $role->givePermissionTo([
-            'View:Dashboard', 'View:Help', 'View:WelcomeWidget',
-        ]);
-    }
-
 }

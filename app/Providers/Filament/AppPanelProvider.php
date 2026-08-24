@@ -93,7 +93,7 @@ class AppPanelProvider extends PanelProvider
     {
         parent::register();
         FilamentView::registerRenderHook(
-            PanelsRenderHook::BODY_END,
+            PanelsRenderHook::FOOTER,
             fn (): string => Blade::render('footer')
         );
         FilamentView::registerRenderHook('panels::body.end', fn (): string => Blade::render("@vite('resources/js/app.js')"));
