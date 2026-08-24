@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Exception;
 use BezhanSalleh\FilamentShield\Traits\HasPanelShield;
+use Exception;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -53,8 +53,9 @@ class User extends Authenticatable implements FilamentUser
     /**
      * Determines whether the user can access the panel.
      *
-     * @param Panel $panel The panel to check access for.
+     * @param  Panel  $panel  The panel to check access for.
      * @return bool Returns true if the user can access the panel, false otherwise.
+     *
      * @throws Exception
      */
     public function canAccessPanel(Panel $panel): bool

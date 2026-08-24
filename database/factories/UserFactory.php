@@ -32,7 +32,7 @@ class UserFactory extends Factory
             'uin' => fake()->unique()->numerify('#########'),
             'first_name' => $firstName,
             'last_name' => $lastName,
-            'name' => $firstName . ' ' . $lastName,
+            'name' => $firstName.' '.$lastName,
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),

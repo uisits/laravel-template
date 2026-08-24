@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Schedule;
+use Laravel\Telescope\Console\PruneCommand;
 
 // Telescope Prune
 Schedule::command(
-    \Laravel\Telescope\Console\PruneCommand::class,
+    PruneCommand::class,
     ['--hours' => 72]
 )->dailyAt('02:00');
 

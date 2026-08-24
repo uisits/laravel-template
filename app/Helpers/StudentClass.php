@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\Helpers;
@@ -23,7 +24,7 @@ class StudentClass
             ->where('term_cd', $termCode)
             ->where('uin', $uin)
             ->get()
-            ->map(fn($course) => $course->allCourses->crs_subj_cd . ' ' . $course->allCourses->crs_nbr);
+            ->map(fn ($course) => $course->allCourses->crs_subj_cd.' '.$course->allCourses->crs_nbr);
     }
 
     public static function getCompletedClasses(string $termCode, string $uin): Collection
@@ -38,7 +39,8 @@ class StudentClass
                 if ($course->crs_subj_cd == 'MAT' && $course->crs_nbr == '102' && in_array($course->crs_grade_cd, ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'CR'])) {
                     return 'ZZ_CSC302';
                 }
-                return $course->crs_subj_cd . ' ' . $course->crs_nbr;
+
+                return $course->crs_subj_cd.' '.$course->crs_nbr;
             });
     }
 
@@ -46,7 +48,7 @@ class StudentClass
     {
         return StudentTransferredCourse::query()
             ->where('uin', $uin)
-            ->when($termCode, fn($query) => $query->where('eq_term_cd', $termCode))
+            ->when($termCode, fn ($query) => $query->where('eq_term_cd', $termCode))
             ->whereIn('eq_crs_subj_cd', ['MAT', 'CSC'])
             ->whereIn('eq_crs_grade_cd', ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'C-', 'D+', 'D', 'D-', 'CR', 'AA', 'ACR', 'AU', 'BB', 'CC'])
             ->get()
@@ -54,7 +56,8 @@ class StudentClass
                 if ($course->eq_crs_subj_cd == 'MAT' && $course->eq_crs_nbr == '102' && in_array($course->eq_crs_grade_cd, ['A', 'A-', 'B+', 'B', 'B-', 'C+', 'C', 'CR'])) {
                     return 'ZZ_CSC302';
                 }
-                return $course->eq_crs_subj_cd . ' ' . $course->fixed_eq_crs_nbr;
+
+                return $course->eq_crs_subj_cd.' '.$course->fixed_eq_crs_nbr;
             });
     }
 }

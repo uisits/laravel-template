@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\Sanctum;
 
 // Note: This application uses Filament for authentication which has its own routes
 // These tests verify core authentication concepts work correctly
@@ -39,5 +40,5 @@ test('user has sanctum token functionality', function () {
 
 test('sanctum is configured', function () {
     // Verify Sanctum is installed
-    expect(class_exists(\Laravel\Sanctum\Sanctum::class))->toBeTrue();
+    expect(class_exists(Sanctum::class))->toBeTrue();
 });
